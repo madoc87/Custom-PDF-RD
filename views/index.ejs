@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gerador de PDF</title>
+  <!-- <link rel="stylesheet" href="/style.css"> -->
+  <link rel="stylesheet" type="text/css" href='/styles.css'/>
+
+</head>
+<body>
+  <h1>Gerador de PDFs</h1>
+  <form action="/gerar-pdf" method="post" id="formpdf" enctype="multipart/form-data">
+
+    <label for="tipoDoc">Tipo de documento :</label>
+    <select id="tipoDoc" name="tipoDoc" form="formpdf" onchange="mostrarCampos()" required>
+        
+        <option value="pagina_modelo">Relatório</option>
+        <option value="pagina_modelo_2">Apresentação</option>
+        <option value="pagina_investimento">Pagina de Investimento</option>
+
+    </select><br> 
+
+    <!-- Campos para a Relatório (opção 1) -->
+    <div id="opcao1"  style="display: contents;">
+        <label for="assunto">Assunto: </label>
+        <input type="text" id="assunto" name="assunto" value="Instagram e Facebook" required><br>
+
+        <label for="cliente">Cliente:</label>
+        <input type="text" id="cliente" name="cliente" value="Omega Pneus" required><br>
+    
+        <label for="data">Data:</label>
+        <input type="text" id="data" name="data" value="13/06/2023 e 13/07/2023" required><br>
+    
+        <label for="imagem">Imagem:</label>
+        <input type="file" id="imagem" name="imagem"><br>
+
+        <span>*Os campos já estão com os textos padrão, caso não sejam alterados o PDF irá com esses textos.</span>
+    </div> 
+    <!-- Fim Campos para a Relatório (opção 1) -->
+
+
+
+    <!-- Campos para a Apresentação (opção 2) -->
+    <div id="opcao2" style="display: none;">
+
+        <label for="apCliente">Cliente: </label>
+        <input type="text" id="apCliente" name="apCliente" value="Lima e Pinheiro Construtora" required><br>
+
+        <label for="apData">Data: </label>
+        <input type="text" id="apData" name="apData" value="Agosto 2023" required><br>
+
+        <span>*Os campos já estão com os textos padrão, caso não sejam alterados o PDF irá com esses textos.</span>
+    </div> 
+    <!-- Fim Campos para a Apresentação (opção 2) -->
+    
+
+
+    <!-- Campos para a Pagina de Investimento (opção 3) -->
+    <div id="opcao3" style="display: none;">
+        <label for="txProjeto">Texto "O projeto contempla" </label>
+        <input type="text" id="txProjeto" name="txProjeto" value="Todos os itens mencionados anteriormente" required><br>
+
+        <label for="investimento">Investimento: </label>
+        <input type="text" id="investimento" name="investimento" value="R$ 6.000 (seis mil reais)" required><br>
+
+        <label for="pDesconto">Porcentagem de desconto (%): </label>
+        <input type="number" id="pDesconto" name="pDesconto" value="20" required><br>
+
+        <label for="vDesconto">Valor do desconto: </label>
+        <input type="text" id="vDesconto" name="vDesconto" value="R$ 5.000 (cinco mil reais)" required><br>
+        
+        <span>*Os campos já estão com os textos padrão, caso não sejam alterados o PDF irá com esses textos.</span>
+    </div> 
+    <!-- Fim Campos para a Pagina de Investimento (opção 3) -->
+
+
+
+    <!-- A idade deve ser um número positivo para verificar adicione antes de fechar o input - min="1"-->
+
+
+    <input type="submit" value="Gerar PDF">
+  </form>
+
+
+
+
+  <script>
+    function mostrarCampos() {
+      const tipoSelecionado = document.getElementById("tipoDoc").value;
+      const opcao1 = document.getElementById("opcao1");
+      const opcao2 = document.getElementById("opcao2");
+      const opcao3 = document.getElementById("opcao3");
+
+      if (tipoSelecionado === "pagina_modelo") {
+        opcao1.style.display = "contents";
+        opcao2.style.display = "none";
+        opcao3.style.display = "none";
+      } else if (tipoSelecionado === "pagina_modelo_2") {
+        opcao1.style.display = "none";
+        opcao2.style.display = "contents";
+        opcao3.style.display = "none";
+      } else if (tipoSelecionado === "pagina_investimento") {
+        opcao1.style.display = "none";
+        opcao2.style.display = "none";
+        opcao3.style.display = "contents";
+      }
+    }
+  </script>
+
+</body>
+</html>
