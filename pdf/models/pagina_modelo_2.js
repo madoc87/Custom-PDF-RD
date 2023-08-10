@@ -5,11 +5,11 @@ const { list, moveDown } = require('pdfkit');
 
 
 function criarPagina(doc, dados, imagem) {
-  doc.registerFont('MS-Black', 'public/fonts/Montserrat-Black.ttf')
-  doc.registerFont('MS-Bold', 'public/fonts/Montserrat-Bold.ttf')
-  doc.registerFont('MS-SemiBold', 'public/fonts/Montserrat-SemiBold.ttf')
-  doc.registerFont('MS-Medium', 'public/fonts/Montserrat-Medium.ttf')
-  doc.registerFont('MS-Regular', 'public/fonts/Montserrat-Regular.ttf')
+  doc.registerFont('MS-Black', 'pdf/public/fonts/Montserrat-Black.ttf')
+  doc.registerFont('MS-Bold', 'pdf/public/fonts/Montserrat-Bold.ttf')
+  doc.registerFont('MS-SemiBold', 'pdf/public/fonts/Montserrat-SemiBold.ttf')
+  doc.registerFont('MS-Medium', 'pdf/public/fonts/Montserrat-Medium.ttf')
+  doc.registerFont('MS-Regular', 'pdf/public/fonts/Montserrat-Regular.ttf')
    
   const sizeFontPP = 14;
   const sizeFontP = 19;
@@ -22,104 +22,41 @@ function criarPagina(doc, dados, imagem) {
   doc    
     //Resumo 1
     .fillColor('#000')
-
-    //Titulo
-    .font('MS-Bold', 21)
-    .text(`FACEBOOK`, 100, 200, {align: 'left'})
-
-    //Sub
-    .moveDown()
-    .font('MS-SemiBold', 17)
-    .text(`Foram feitas 31 publicações durante o período de ${dados.data} que originam um total de:`, 100, 230,  {width: 340, align: 'left'}) //100, 253,
-
-    doc.moveDown()
-    .fillColor('#ff572e')
-    .font('MS-Bold', 20)
-
-    //Topico 1 - Bullet
-    // .text(`• `, {
-    //   align: 'left', 
-    //   lineGap: 1.5, 
-    //   continued: true,
-    // })
-
-    //doc.circle(102, 322, 3).fill('#6600FF'); //Bullet - Topico 1
+    .fontSize(20)
+    const topicos = [
+      { texto: '@23.200 de alcance@ 6.4 mil % a mais que o período anterior;' },
+      { texto: '@104 visitas,@ 65,1% a mais que o período anterior;' },
+      { texto: '@2 novas curtidas na página,@ 100% de diferença em relação ao período anterior;' },
+    ];
     
-    doc.fillColor('#ff572e')
-    .fontSize(sizeFontPP)
-    .text(`• 23.200 de alcance `, {lineGap: 2, continued: true})
-
-    .font('MS-Regular', sizeFontPP)
-    .text(`6.4 mil % a mais que o período anterior;`)
-
-    //Topico 2
-    //doc.circle(102, 341, 3).fill('#ff572e'); //Bullet - Topico 2
-
-    doc.font('MS-Bold', sizeFontPP)
-    .text(`• 104 visitas, `,{lineGap: 2, continued: true})
-
-    .font('MS-Regular', sizeFontPP)
-    .text(`65,1% a mais que o período anterior;`)
-
-    //Topico 3
-    //doc.circle(102, 360, 3).fill('#ff572e'); //Bullet - Topico 3
-    doc.font('MS-Bold', sizeFontPP)
-    .text(`• 2 novas curtidas na página,`,{lineGap: 2, continued: true})
-
-    .font('MS-Regular', sizeFontPP)
-    .text(`100% de diferença em relação ao período antrior;`)
-
-    //Topico 4
-    //doc.circle(102, 379, 3).fill('#ff572e'); //Bullet - Topico 4
-    doc.font('MS-Bold', sizeFontPP)
-    .text(`• 16 interações`,{lineGap: 2, continued: true})
-
-    .font('MS-Regular', sizeFontPP)
-    .text(`(curtidas, comentários e compartilhamentos), 128,6% a mais que o período anterior.`)
-
-
-    doc    
-    //Resumo 2
-    .fillColor('#000')
-
-    //Titulo
-    .font('MS-Bold', 21)
-    .text(`INSTAGRAM`, 100, 460, {align: 'left'})
-
-    //Sub
-    .font('MS-SemiBold', 17)
-    .text(`Foram feitas 31 publicações durante o período de ${dados.data} que originam um total de:`, 100, 490, {width: 340, align: 'left'}) //100, 253,
-
-    doc.moveDown()
-    .fillColor('#ff572e')
-
-    //Topico 1
-    .font('MS-Bold', sizeFontPP)
-    .text(`• 22.666 de alcance `, {align: 'left', lineGap: 1.5, continued: true}) //, 100, 320
-
-    .font('MS-Regular', sizeFontPP)
-    .text(`660.6 % a mais que o período anterior;`)
-
-    //Topico 2
-    .font('MS-Bold', sizeFontPP)
-    .text(`• 463 visitas, `,{continued: true})
-
-    .font('MS-Regular', sizeFontPP)
-    .text(`23,1% a mais que o período anterior;`)
-
-    //Topico 3
-    .font('MS-Bold', sizeFontPP)
-    .text(`• 152 novas seguidores,`,{continued: true})
-
-    .font('MS-Regular', sizeFontPP)
-    .text(`49% a mais que o período antrior;`)
-
-    //Topico 4
-    .font('MS-Bold', sizeFontPP)
-    .text(`• 336 interações`,{continued: true})
-
-    .font('MS-Regular', sizeFontPP)
-    .text(`(curtidas, comentários e compartilhamentos), 17,1% a mais que o período anterior.`)
+  //   doc.list(topicos[1], {
+  //     bulletRadius: 3, // Adjust the bullet size as needed
+  //     textIndent: 10, // Adjust the indentation of the text
+  //   });
+  
+    // Define a flag para indicar quando a fonte é negrito ou normal
+    let fonteNegrito = false;
+  
+    // Add each topic and its bold part separately
+    topicos.forEach((topico) => {
+      const partes = topico.texto.split('@');
+      
+      partes.forEach((parte, index) => {
+        if (parte && index % 2 === 0) {
+          if (fonteNegrito) {
+            doc.font('Helvetica').text(parte, { continued: true });
+          } else {
+            doc.text(parte, { continued: true });
+          }
+        } else if (parte) {
+          fonteNegrito = !fonteNegrito;
+          doc.font('Helvetica-Bold').text(parte, { continued: true });
+        }
+      });
+    
+      
+      doc.moveDown();
+    });
   
 
   //#############################################################

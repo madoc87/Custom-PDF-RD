@@ -6,9 +6,10 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const multer = require('multer');
+
 // Configurando o Multer para salvar a imagem carregada no diretório 'public/uploads'
-// const upload = multer({ dest: 'uploads/' });
-const upload = multer({ dest: 'public/uploads/' });
+// const upload = multer({ dest: 'public/uploads/' });
+const upload = multer({ dest: __dirname + '/public/uploads/' });
 
 // Configurando o servidor Express
 const app = express();
@@ -16,20 +17,28 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 
-app.use(express.static(__dirname + '/public')); //Adicionar pasta onde está o arquivo CSS para que o Express possa ler
+//define o diretório de views para o Express 
+// criando um caminho absoluto para o diretório views
+app.set('views', path.join(__dirname, 'views'));
+
+//Adicionar pasta onde está o arquivo CSS para que o Express possa ler
+//app.use(express.static(__dirname + '/public')); 
+app.use('/pdf/', express.static(__dirname + '/public'));
 
 app.use(express.urlencoded({ extended: true })); //Geração de paginas dinamicas
 
 //app.use(express.static('public')); //Geração de paginas estaticas
 
 // Rota para renderizar a página inicial
-app.get('/', (req, res) => {
+app.get('/pdf/', (req, res) => {
+// app.get(__dirname, (req, res) => {
   res.render('index');
 });
 
 // Rota para receber os dados enviados pelo usuário 
 //###########################################
-app.post('/gerar-pdf', upload.single('imagem'), (req, res) => {
+app.post('/pdf/gerar-pdf', upload.single('imagem'), (req, res) => {
+// app.post(__dirname + '/gerar-pdf', upload.single('imagem'), (req, res) => {
 //###########################################
 
     const { 
@@ -50,8 +59,17 @@ app.post('/gerar-pdf', upload.single('imagem'), (req, res) => {
         return res.status(400).send('Por favor, preencha todos os campos.');
     }
 
+    //Criação de uma variavel para definir a orientação da pagina de acorodo com o formato escolhido
+    let pdfLayout;
+
+    if (tipoDoc === 'pagina_modelo') {
+        pdfLayout = 'portrait';
+      } else if (tipoDoc === 'pagina_investimento') {
+        pdfLayout = 'landscape';
+      }
+
     // Gerar o PDF com base nas informações recebidas e define o tamanho do arquivo PDF para A4
-    const doc = new PDFDocument({size: 'A4', layout : 'landscape'});
+    const doc = new PDFDocument({size: 'A4', layout : pdfLayout});
 
     //doc.pipe(fs.createWriteStream('output.pdf')); //Metodo basico de teste para salvar o PDF com um nome estatico
     //const pdfName = `output-${uuidv4()}.pdf`; // Usando o ID único no nome do PDF
