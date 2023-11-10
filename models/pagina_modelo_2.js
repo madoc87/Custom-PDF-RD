@@ -5,11 +5,11 @@ const { list, moveDown } = require('pdfkit');
 
 
 function criarPagina(doc, dados, imagem) {
-  doc.registerFont('MS-Black', 'pdf/public/fonts/Montserrat-Black.ttf')
-  doc.registerFont('MS-Bold', 'pdf/public/fonts/Montserrat-Bold.ttf')
-  doc.registerFont('MS-SemiBold', 'pdf/public/fonts/Montserrat-SemiBold.ttf')
-  doc.registerFont('MS-Medium', 'pdf/public/fonts/Montserrat-Medium.ttf')
-  doc.registerFont('MS-Regular', 'pdf/public/fonts/Montserrat-Regular.ttf')
+  doc.registerFont('MS-Black', 'public/fonts/Montserrat-Black.ttf')
+  doc.registerFont('MS-Bold', 'public/fonts/Montserrat-Bold.ttf')
+  doc.registerFont('MS-SemiBold', 'public/fonts/Montserrat-SemiBold.ttf')
+  doc.registerFont('MS-Medium', 'public/fonts/Montserrat-Medium.ttf')
+  doc.registerFont('MS-Regular', 'public/fonts/Montserrat-Regular.ttf')
    
   const sizeFontPP = 14;
   const sizeFontP = 19;

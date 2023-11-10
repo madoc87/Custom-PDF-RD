@@ -17,27 +17,27 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 
-//define o diretório de views para o Express 
+//define o diretório de views para o Express
 // criando um caminho absoluto para o diretório views
 app.set('views', path.join(__dirname, 'views'));
 
 //Adicionar pasta onde está o arquivo CSS para que o Express possa ler
-//app.use(express.static(__dirname + '/public')); 
-app.use('/pdf/', express.static(__dirname + '/public'));
+//app.use(express.static(__dirname + '/public'));
+app.use('/', express.static(__dirname + '/public'));
 
 app.use(express.urlencoded({ extended: true })); //Geração de paginas dinamicas
 
 //app.use(express.static('public')); //Geração de paginas estaticas
 
 // Rota para renderizar a página inicial
-app.get('/pdf/', (req, res) => {
+app.get('/', (req, res) => {
 // app.get(__dirname, (req, res) => {
   res.render('index');
 });
 
-// Rota para receber os dados enviados pelo usuário 
+// Rota para receber os dados enviados pelo usuário
 //###########################################
-app.post('/pdf/gerar-pdf', upload.single('imagem'), (req, res) => {
+app.post('/gerar-pdf', upload.single('imagem'), (req, res) => {
 // app.post(__dirname + '/gerar-pdf', upload.single('imagem'), (req, res) => {
 //###########################################
 

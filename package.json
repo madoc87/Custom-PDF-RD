@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "App para criação de arquivos PDFs baseados em informações enviadas",
   "main": "index.js",
+  "engines": {
+    "node": "16"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "madoc87",
   "license": "ISC",
